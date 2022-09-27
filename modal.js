@@ -7,15 +7,16 @@ function editNav() {
   }
 }
 
-// ÉLÉMENTS DOM
+// AFFICHAGE DE LA MODALE
 
-// Sélectionner l'élément "modale"
+// ÉLÉMENTS DOM
+// Sélection de l'élément "modale"
 const modalbg = document.querySelector(".bground");
-// Sélectionner l'élément "bouton" qui ouvre la modale
+// Sélection de l'élément "bouton" qui ouvre la modale
 const modalBtn = document.querySelectorAll(".modal-btn");
-// Sélectionner l'élément "formulaire"
+// Sélection de l'élément "formulaire"
 const formData = document.querySelectorAll(".formData");
-// Sélectionner l'élément "bouton" qui ferme la modale
+// Sélection de l'élément "bouton" qui ferme la modale
 const closeModalBtn = document.querySelector(".close");
 
 // Lorsque l'utilisateur clique sur le bouton, ouvre la modale
@@ -38,3 +39,159 @@ function closeModal() {
     modalbg.style.display= "none";
   }, {once: true})
 }
+
+// CONTROLES DE VALIDATION DU FORMULAIRE
+
+// ÉLÉMENTS DOM
+// Sélection de l'élément "reserve" (formulaire)
+const form = document.forms[0];
+// Sélection des éléments "input[required]" du formulaire
+const fields = document.querySelectorAll("form input[required]");
+// Sélection de l'élément "input" du Prénom
+const first = document.getElementById("first");
+// Sélection de l'élément "input" du Nom
+const last = document.getElementById("last");
+// Sélection de l'élément "input" de l'E-mail
+const email = document.getElementById("email");
+// Sélection de l'élément "input" de la Date de naissance
+const birthdate = document.getElementById("birthdate");
+// Sélection de l'élément "input" de Combien de tournois
+const quantity = document.getElementById("quantity");
+// Sélection des éléments "input" de "type=radio" (Quel tournoi)
+const locations = document.querySelectorAll("input[type=radio]");
+
+// Sélection de l'élément "input" des Conditions d'utilisation
+const conditionsUtilisation = document.getElementById("checkbox1");
+
+// Lorsque l'utilisateur clique sur le bouton, lance la fonction validateForm
+form.addEventListener("submit", validateForm);
+
+// Fonction de validation du formulaire
+function validateForm(event) {
+  event.preventDefault(); // Empêche l'envoi des données du formulaire
+  let valid = true;
+
+  for (let field of fields) {
+    if (!field.checkValidity()) { // checkValidity() renvoie true si la valeur de l'élément n'a pas de problème de validation
+      addErrorAttribute(field);
+      addErrorMessages();
+      valid = false;
+    } else {
+      clearErrorMessage(field);
+    }
+  }
+
+  if (valid) {
+    closeModal();
+  }
+}
+
+// Fonction d'ajout de l'attribut d'erreur "data-error-visible"
+function addErrorAttribute(element) {
+  element.parentElement.setAttribute("data-error-visible", "true");
+}
+
+// Fonction d'ajout de l'attribut "data-error" et du message d'erreur
+function writeErrorMessage(element, message) {
+  element.parentElement.setAttribute("data-error", message);
+}
+
+// Fonction d'ajout des messages d'erreur
+function addErrorMessages() {
+  writeErrorMessage(first, "Veuillez entrer 2 caractères ou plus.");
+  writeErrorMessage(last, "Veuillez entrer 2 caractères ou plus.");
+  writeErrorMessage(email, "Veuillez saisir votre adresse e-mail.")
+  writeErrorMessage(birthdate, "Veuillez saisir votre date de naissance.");
+  writeErrorMessage(quantity, "Veuillez saisir une valeur numérique.");
+  writeErrorMessage(conditionsUtilisation, "Vous devez vérifier que vous acceptez les termes et conditions.");
+}
+
+// Fonction pour vérifier si un bouton radio est coché
+function udapteAttribute(element) {
+  if (element.target.matches("input[required]")) {
+    element.target.removeAttribute("required");
+  }
+}
+for (let location of locations) {
+  location.addEventListener("change", udapteAttribute);
+  writeErrorMessage(location, "Vous devez choisir une option");
+}
+
+// Fonction d'effacement des messages d'erreur
+function clearErrorMessage(element) {
+  element.parentElement.setAttribute("data-error-visible", "false");
+  element.parentElement.setAttribute("data-error", "");
+}
+
+// Vérification en cours de saisie ou après rejet
+
+// Pour le prénom
+first.addEventListener("input", function(event) {
+  if (!event.target.checkValidity()) {
+    addErrorAttribute(event.target);
+    writeErrorMessage(first, "Veuillez entrer 2 caractères ou plus.");
+  } else {
+    clearErrorMessage(event.target);
+  }
+});
+
+// Pour le nom
+last.addEventListener("input", function(event) {
+  if (!event.target.checkValidity()) {
+    addErrorAttribute(event.target);
+    writeErrorMessage(last, "Veuillez entrer 2 caractères ou plus.");
+  } else {
+    clearErrorMessage(event.target);
+  }
+});
+
+// Pour l'e-mail
+email.addEventListener("input", function(event) {
+  if (!event.target.checkValidity()) {
+    addErrorAttribute(event.target);
+    writeErrorMessage(email, "Veuillez saisir une adresse e-mail valide.");
+  } else {
+    clearErrorMessage(event.target);
+  }
+});
+
+// Pour la date de naissance
+birthdate.addEventListener("input", function(event) {
+  if (!event.target.checkValidity()) {
+    addErrorAttribute(event.target);
+    writeErrorMessage(birthdate, "Veuillez saisir une date au format jj/mm/aaaa.");
+  } else {
+    clearErrorMessage(event.target);
+  }
+});
+
+// Pour le nombre de tournoi
+quantity.addEventListener("input", function(event) {
+  if (!event.target.checkValidity()) {
+    addErrorAttribute(event.target);
+    writeErrorMessage(quantity, "Veuillez saisir une valeur numérique.");
+  } else {
+    clearErrorMessage(event.target);
+  }
+});
+
+// Pour le choix du tournoi
+for (let location of locations) {
+  location.addEventListener("change", function(event) {
+    if (!event.target.checkValidity()) {
+      addErrorAttribute(event.target);
+    } else {
+      clearErrorMessage(event.target);
+    }
+  });
+}
+
+// Pour les conditions d'utilisation
+conditionsUtilisation.addEventListener("change", function(event) {
+  if (!event.target.checkValidity()) {
+    addErrorAttribute(event.target);
+    writeErrorMessage(conditionsUtilisation, "Vous devez vérifier que vous acceptez les termes et conditions.");
+  } else {
+    clearErrorMessage(event.target);
+  }
+});
