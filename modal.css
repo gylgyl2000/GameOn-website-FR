@@ -153,8 +153,8 @@ main {
   font-size: 16px;
 }
 
-.bground {
-  display: none;
+.bground,
+.bground-merci {
   position: fixed;
   z-index: 1;
   left: 0;
@@ -165,8 +165,19 @@ main {
   background-color: rgba(26, 39, 156, 0.4);
 }
 
+.bground {
+  display: none;
+}
+
+.bground-merci {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
 .content {
-  margin: 5% auto;
+  margin: 1vh auto;
   width: 100%;
   max-width: 500px;
   animation-name: modalopen;
@@ -177,9 +188,11 @@ main {
   position: relative;
   color: #fff;
   padding-top: 10px;
+  min-height: 98vh;
 }
 
-.bground[closing] {
+.bground[closing],
+.bground-merci[closing] {
   animation-name: modalclose;
   animation-duration: var(--modal-duration);
 }
@@ -187,6 +200,11 @@ main {
 .modal-body {
   padding: 15px 8%;
   margin: 15px auto;
+}
+
+.bground-merci .modal-body {
+  position: relative;
+  top: 40vh;
 }
 
 label {
@@ -303,7 +321,8 @@ input[data-error]::after {
   left: 21%;
   top: 19%;
 }
-.close {
+.close,
+.close-merci {
   position: absolute;
   right: 15px;
   top: 15px;
@@ -314,7 +333,9 @@ input[data-error]::after {
   transform: scale(0.7);
 }
 .close:before,
-.close:after {
+.close:after,
+.close-merci:before,
+.close-merci:after {
   position: absolute;
   left: 15px;
   content: " ";
@@ -322,17 +343,20 @@ input[data-error]::after {
   width: 3px;
   background-color: #fff;
 }
-.close:before {
+.close:before,
+.close-merci:before {
   transform: rotate(45deg);
 }
-.close:after {
+.close:after,
+.close-merci:after {
   transform: rotate(-45deg);
 }
 .btn-submit,
-.btn-signup {
+.btn-signup,
+.btn-close {
   background: #fe142f;
   display: block;
-  margin: 0 auto;
+  margin: 4vh auto;
   border-radius: 7px;
   font-size: 1rem;
   padding: 12px 82px;
@@ -340,6 +364,12 @@ input[data-error]::after {
   cursor: pointer;
   border: 0;
 }
+
+.btn-close {
+  position: relative;
+  top: 68vh;
+}
+
 /* custom select styles */
 .custom-select {
   position: relative;

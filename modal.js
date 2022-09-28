@@ -13,7 +13,7 @@ function editNav() {
 // Sélection de l'élément "modale"
 const modalbg = document.querySelector(".bground");
 // Sélection de l'élément "bouton" qui ouvre la modale
-const modalBtn = document.querySelectorAll(".modal-btn");
+const modalBtn = document.querySelectorAll(".btn-signup");
 // Sélection de l'élément "formulaire"
 const formData = document.querySelectorAll(".formData");
 // Sélection de l'élément "bouton" qui ferme la modale
@@ -27,7 +27,7 @@ function launchModal() {
   modalbg.style.display = "block";
 }
 
-// Lorsque l'utilisateur clique sur le bouton, ferme la modale
+// Lorsque l'utilisateur clique sur le bouton x, ferme la modale
 closeModalBtn.addEventListener("click", closeModal);
 
 // Fonction de fermeture de la modale
@@ -43,7 +43,7 @@ function closeModal() {
 // CONTROLES DE VALIDATION DU FORMULAIRE
 
 // ÉLÉMENTS DOM
-// Sélection de l'élément "reserve" (formulaire)
+// Sélection de l'élément formulaire
 const form = document.forms[0];
 // Sélection des éléments "input[required]" du formulaire
 const fields = document.querySelectorAll("form input[required]");
@@ -59,9 +59,11 @@ const birthdate = document.getElementById("birthdate");
 const quantity = document.getElementById("quantity");
 // Sélection des éléments "input" de "type=radio" (Quel tournoi)
 const locations = document.querySelectorAll("input[type=radio]");
-
 // Sélection de l'élément "input" des Conditions d'utilisation
 const conditionsUtilisation = document.getElementById("checkbox1");
+
+// Sélection de l'élément "modale principale"
+const mainModal = document.querySelector(".bground");
 
 // Lorsque l'utilisateur clique sur le bouton, lance la fonction validateForm
 form.addEventListener("submit", validateForm);
@@ -83,6 +85,8 @@ function validateForm(event) {
 
   if (valid) {
     closeModal();
+    launchMerciModal();
+    form.reset();
   }
 }
 
@@ -195,3 +199,37 @@ conditionsUtilisation.addEventListener("change", function(event) {
     clearErrorMessage(event.target);
   }
 });
+
+// AFFICHAGE DE LA MODALE MERCI
+
+// ÉLÉMENTS DOM
+
+// Sélection de l'élément "modale merci"
+const merciModal = document.querySelector(".bground-merci");
+// Sélection de l'élément "bouton" qui ouvre la modale
+const merciModalBtn = document.querySelectorAll(".btn-close");
+// Sélection de l'élément "bouton" qui ferme la modale
+const closeMerciModalBtn = document.querySelector(".close-merci");
+// Sélection de l'élément "bouton Fermer"
+const fermerMerciModalNtn = document.querySelector(".btn-close")
+
+// Fonction d'ouverture de la "modale merci"
+function launchMerciModal() {
+  merciModal.style.display = "flex";
+}
+
+// Lorsque l'utilisateur clique sur le bouton x, ferme la modale
+closeMerciModalBtn.addEventListener("click", closeMerciModal);
+
+// Lorsque l'utilisateur clique sur le bouton Fermer, ferme la modale
+fermerMerciModalNtn.addEventListener("click", closeMerciModal);
+
+// Fonction de fermeture de la "modale merci"
+function closeMerciModal() {
+  merciModal.setAttribute("closing", "");
+  
+  merciModal.addEventListener("animationend", () => {
+    merciModal.removeAttribute("closing");
+    merciModal.style.display= "none";
+  }, {once: true})
+}
