@@ -1,3 +1,4 @@
+// Fonction d'affichage de la barre de navigation
 function editNav() {
   var x = document.getElementById("myTopnav");
   if (x.className === "topnav") {
@@ -100,16 +101,6 @@ function writeErrorMessage(element, message) {
   element.parentElement.setAttribute("data-error", message);
 }
 
-// Fonction d'ajout des messages d'erreur
-function addErrorMessages() {
-  writeErrorMessage(first, "Veuillez entrer 2 caractères ou plus.");
-  writeErrorMessage(last, "Veuillez entrer 2 caractères ou plus.");
-  writeErrorMessage(email, "Veuillez saisir votre adresse e-mail.")
-  writeErrorMessage(birthdate, "Veuillez saisir votre date de naissance.");
-  writeErrorMessage(quantity, "Veuillez saisir une valeur numérique.");
-  writeErrorMessage(conditionsUtilisation, "Vous devez vérifier que vous acceptez les termes et conditions.");
-}
-
 // Fonction pour vérifier si un bouton radio est coché
 function udapteAttribute(element) {
   if (element.target.matches("input[required]")) {
@@ -119,6 +110,16 @@ function udapteAttribute(element) {
 for (let location of locations) {
   location.addEventListener("change", udapteAttribute);
   writeErrorMessage(location, "Vous devez choisir une option");
+}
+
+// Fonction d'ajout des messages d'erreur
+function addErrorMessages() {
+  writeErrorMessage(first, "Veuillez entrer 2 caractères ou plus.");
+  writeErrorMessage(last, "Veuillez entrer 2 caractères ou plus.");
+  writeErrorMessage(email, "Veuillez saisir votre adresse e-mail.")
+  writeErrorMessage(birthdate, "Veuillez saisir votre date de naissance.");
+  writeErrorMessage(quantity, "Veuillez saisir une valeur numérique.");
+  writeErrorMessage(conditionsUtilisation, "Vous devez vérifier que vous acceptez les termes et conditions.");
 }
 
 // Fonction d'effacement des messages d'erreur
