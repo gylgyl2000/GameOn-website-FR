@@ -53,8 +53,8 @@ const mainModal = document.querySelector(".bground"); // Sélection de l'éléme
 form.addEventListener("submit", validateForm); // Lorsque l'utilisateur clique sur le bouton, lance la fonction validateForm
 
 // Expressions régulières et validations
-const letterRegExp = /[A-Z][a-z]{1,}/s;
-const numRegExp = /^[a-z]+$/i;
+const letterRegExp = /[A-Z][a-z]{1,}/s; // Commence par une majuscule, nécessite au moins 2 caractères
+const numRegExp = /^[a-z-' ]+$/i; // N'autorise que des lettres et "-", "'" et l'espace
 const emailRegExp = /^(?![_.-])((?![_.-][_.-])[a-zA-Z\d_.-]){0,63}[a-zA-Z\d]@((?!-)((?!--)[a-zA-Z\d-]){0,63}[a-zA-Z\d]\.){1,2}([a-zA-Z]{2,14}\.)?[a-zA-Z]{2,14}$/;
 const birthdateRegExp = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
 const numOnlyRegExp = /^[0-9]+$/;
@@ -114,7 +114,7 @@ function validateForm(event) {
   } else {
     clearErrorMessage(birthdate);
   }
-  if (quantity.value === null || !quantity.value.match(numOnlyRegExp)) { // Pour le nombre de tournoi
+  if (quantity.value === null || quantity.value > 99 || !quantity.value.match(numOnlyRegExp)) { // Pour le nombre de tournoi
     addErrorAttribute(quantity);
     addErrorMessages();
     valid = false;
@@ -216,6 +216,9 @@ quantity.addEventListener("input", function(event) { // Pour le nombre de tourno
   if (quantity.value === null || !quantity.value.match(numOnlyRegExp)) {
     addErrorAttribute(event.target);
     writeErrorMessage(quantity, "Veuillez saisir une valeur numérique.");
+  } else if (quantity.value > 99) {
+    addErrorAttribute(event.target);
+    writeErrorMessage(quantity, "Veuillez saisir une valeur entre 0 et 99.");
   } else {
     clearErrorMessage(event.target);
   }
